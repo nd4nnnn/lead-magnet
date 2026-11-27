@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ELVORN — Profil Studio Sablon Kaos &amp; Panduan Gratis E-Book</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind Custom Theme Matching ELVORN Dark Studio -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        studio: {
+                            bg: '#0B0D0C',
+                            surface: '#131615',
+                            card: '#161A18',
+                            elevated: '#1C201E',
+                            border: '#242927',
+                            borderLight: '#2F3633',
+                            text: '#F5F7F6',
+                            muted: '#8E9491',
+                            dim: '#5C6360',
+                        },
+                        emeraldStudio: {
+                            DEFAULT: '#229A65',
+                            bright: '#29B373',
+                            soft: 'rgba(34, 154, 101, 0.16)',
+                            border: 'rgba(41, 179, 115, 0.35)',
+                        },
+                        amberStudio: {
+                            DEFAULT: '#D4A857',
+                            soft: 'rgba(212, 168, 87, 0.18)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0B0D0C;
+            color: #F5F7F6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0B0D0C;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #242927;
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #363D3A;
+        }
+
+        /* Custom Select Arrow */
+        select.studio-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238E9491' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            background-size: 16px;
+        }
+
+        /* Studio Ambient Glow */
+        .studio-glow-bg {
+            background: radial-gradient(circle at 50% 45%, rgba(34, 154, 101, 0.22) 0%, rgba(19, 22, 21, 0.9) 58%, #0B0D0C 100%);
+        }
+
+        /* 3D E-Book Cover Perspective */
+        .ebook-perspective {
+            perspective: 1100px;
+        }
+
+        .ebook-3d {
+            transform: rotateY(-14deg) rotateX(4deg);
+            transform-style: preserve-3d;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease;
+            box-shadow:
+                -12px 18px 38px rgba(0, 0, 0, 0.72),
+                0 0 42px rgba(34, 154, 101, 0.18);
+        }
+
+        .ebook-3d:hover {
+            transform: rotateY(-5deg) rotateX(1deg) translateY(-4px);
+            box-shadow:
+                -8px 24px 44px rgba(0, 0, 0, 0.8),
+                0 0 54px rgba(41, 179, 115, 0.28);
+        }
+
+        /* Highlight Pulse when scrolling to Lead Magnet */
+        @keyframes highlightRing {
+            0% {
+                box-shadow: 0 0 0 0 rgba(41, 179, 115, 0.55);
+            }
+
+            50% {
+                box-shadow: 0 0 0 10px rgba(41, 179, 115, 0.12);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(41, 179, 115, 0);
+            }
+        }
+
+        .highlight-pulse {
+            animation: highlightRing 1.3s ease-out;
+        }
+
+        /* Smooth Fade-in Animation */
+        .fade-in {
+            animation: fadeIn 0.35s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#229A65] selection:text-white">
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[100] flex flex-col gap-2.5 pointer-events-none"></div>
+
+    <!-- ===================================================================== -->
+    <!-- 1. STICKY NAVBAR                                                      -->
+    <!-- ===================================================================== -->
+    <header class="w-full border-b border-[#1E2321] bg-[#0B0D0C]/90 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-[1240px] mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#top" class="flex items-center gap-2.5 select-none focus:outline-none">
+                <svg class="h-7 w-auto" viewBox="0 0 88 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="44" cy="22" rx="39" ry="12" transform="rotate(-18 44 22)" stroke="#F5F7F6"
+                        stroke-width="2.2" />
+                    <path d="M24 27L34 12H56L52 17H38L35.5 21H48L45 25.5H32.5L29.5 30H47L44 35H20L24 27Z"
+                        fill="#F5F7F6" />
+                    <path d="M53 14L65 14L51 33H44L53 14Z" fill="#F5F7F6" />
+                </svg>
+                <span class="font-display font-semibold tracking-[0.14em] text-[#F5F7F6] text-lg">ELVORN</span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-7 text-sm">
+                <a href="#profil" class="text-[#8E9491] hover:text-[#F5F7F6] transition font-medium">Profil</a>
+                <a href="#alur-pemesanan" class="text-[#8E9491] hover:text-[#F5F7F6] transition font-medium">Alur
+                    Order</a>
+                <a href="#lead-magnet" class="text-[#8E9491] hover:text-[#F5F7F6] transition font-medium">E-Book
+                    Gratis</a>
+            </nav>
+
+            <!-- Desktop CTA & Mobile Menu Button -->
+            <div class="flex items-center gap-2.5">
+                <button type="button" onclick="scrollToLeadMagnet()"
+                    class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#229A65] hover:bg-[#29B373] text-white text-xs sm:text-sm font-semibold transition shadow-md">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    <span>Unduh Panduan Gratis</span>
+                </button>
+
+                <!-- Mobile Menu Toggle -->
+                <button id="mobile-menu-btn" type="button" onclick="toggleMobileMenu()" aria-label="Buka Menu Navigasi"
+                    class="md:hidden p-2.5 rounded-lg border border-[#242927] bg-[#131615] text-[#F5F7F6] hover:border-[#29B373] transition">
+                    <svg id="icon-menu-open" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                    <svg id="icon-menu-close" class="w-5 h-5 hidden" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden border-t border-[#1E2321] bg-[#0D100F] px-5 py-4 space-y-2.5 fade-in">
+            <a href="#profil" onclick="closeMobileMenu()"
+                class="block py-2 px-3 rounded-lg text-sm font-medium text-[#D1D5DB] hover:bg-[#161A18] hover:text-white transition">Profil</a>
+            <a href="#alur-pemesanan" onclick="closeMobileMenu()"
+                class="block py-2 px-3 rounded-lg text-sm font-medium text-[#D1D5DB] hover:bg-[#161A18] hover:text-white transition">Alur
+                Order</a>
+            <a href="#lead-magnet" onclick="closeMobileMenu()"
+                class="block py-2 px-3 rounded-lg text-sm font-medium text-[#D1D5DB] hover:bg-[#161A18] hover:text-white transition">E-Book
+                Gratis</a>
+            <button type="button" onclick="closeMobileMenu(); scrollToLeadMagnet();"
+                class="w-full mt-2 py-2.5 px-4 rounded-xl bg-[#229A65] hover:bg-[#29B373] text-white text-sm font-semibold transition flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span>Unduh Panduan Gratis</span>
+            </button>
+        </div>
+    </header>
+
+    <main id="top" class="flex-1">
+        <!-- =================================================================== -->
+        <!-- 2. HERO SECTION (BRAND PROFILE & HOOK)                              -->
+        <!-- =================================================================== -->
+        <section class="relative overflow-hidden border-b border-[#1E2321]">
+            <div class="max-w-[1240px] mx-auto px-5 sm:px-8 py-12 sm:py-16 lg:py-20">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+                    <!-- Left Column: Profile Hook & CTAs -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <div
+                            class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#161A18] border border-[#2F3633] text-xs font-medium text-[#D1D5DB]">
+                            <span class="w-2 h-2 rounded-full bg-[#29B373]"></span>
+                            <span>ELVORN • Sablon Kaos &amp; Apparel Studio</span>
+                        </div>
+
+                        <h1
+                            class="font-display font-extrabold text-3xl sm:text-5xl lg:text-[50px] text-[#F5F7F6] leading-[1.13] tracking-tight">
+                            Bikin Kaos Komunitas, Event &amp; Brand <span class="text-[#29B373]">Tanpa Ribet, Tanpa
+                                Molor.</span>
+                        </h1>
+
+                        <p class="text-sm sm:text-base text-[#8E9491] leading-relaxed max-w-2xl">
+                            <strong class="text-[#F5F7F6] font-semibold">ELVORN</strong> adalah studio produksi custom
+                            apparel yang mengutamakan kenyamanan bahan <strong class="text-[#D1D5DB] font-medium">Cotton
+                                Combed 30s &amp; 24s</strong>, hasil sablon <strong
+                                class="text-[#D1D5DB] font-medium">DTF &amp; Plastisol</strong> presisi, kalender kuota
+                            harian yang transparan, serta pantauan progres produksi secara real-time.
+                        </p>
+
+                        <!-- Primary & Secondary CTAs -->
+                        <div class="flex flex-wrap items-center gap-3.5 pt-1">
+                            <button type="button" onclick="scrollToLeadMagnet()"
+                                class="px-6 py-3.5 rounded-xl bg-[#229A65] hover:bg-[#29B373] text-white font-semibold text-sm flex items-center gap-2 transition shadow-lg shadow-[#229A65]/20">
+                                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" y1="15" x2="12" y2="3" />
+                                </svg>
+                                <span>Unduh E-Book Panduan Gratis</span>
+                            </button>
+
+                            <a href="#alur-pemesanan"
+                                class="px-6 py-3.5 rounded-xl border border-[#2F3633] hover:border-[#F5F7F6] bg-[#131615] text-[#F5F7F6] font-medium text-sm transition">
+                                Lihat Alur Pemesanan
+                            </a>
+                        </div>
+
+                        <!-- Trust Metrics Strip -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-[#1E2321]">
+                            <div
+                                class="flex items-center gap-3 bg-[#131615] border border-[#242927] rounded-xl px-4 py-3">
+                                <span
+                                    class="w-8 h-8 rounded-lg bg-[#229A65]/15 text-[#29B373] flex items-center justify-center shrink-0">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                        <line x1="16" y1="2" x2="16" y2="6" />
+                                        <line x1="8" y1="2" x2="8" y2="6" />
+                                        <line x1="3" y1="10" x2="21" y2="10" />
+                                    </svg>
+                                </span>
+                                <div class="leading-tight">
+                                    <p class="text-xs font-bold text-[#F5F7F6]">100 Pcs/Hari</p>
+                                    <p class="text-[11px] text-[#8E9491] mt-0.5">Kuota Terkontrol</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="flex items-center gap-3 bg-[#131615] border border-[#242927] rounded-xl px-4 py-3">
+                                <span
+                                    class="w-8 h-8 rounded-lg bg-[#D4A857]/15 text-[#D4A857] flex items-center justify-center shrink-0">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <rect x="2" y="5" width="20" height="14" rx="2" />
+                                        <line x1="2" y1="10" x2="22" y2="10" />
+                                    </svg>
+                                </span>
+                                <div class="leading-tight">
+                                    <p class="text-xs font-bold text-[#F5F7F6]">DP Ringan 50%</p>
+                                    <p class="text-[11px] text-[#8E9491] mt-0.5">Langsung Kunci Slot</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="flex items-center gap-3 bg-[#131615] border border-[#242927] rounded-xl px-4 py-3">
+                                <span
+                                    class="w-8 h-8 rounded-lg bg-[#229A65]/15 text-[#29B373] flex items-center justify-center shrink-0">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                                    </svg>
+                                </span>
+                                <div class="leading-tight">
+                                    <p class="text-xs font-bold text-[#F5F7F6]">5 Tahap Tracking</p>
+                                    <p class="text-[11px] text-[#8E9491] mt-0.5">Progres Real-Time</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: 3D E-Book Mockup Showcase Card -->
+                    <div class="lg:col-span-5">
+                        <div
+                            class="studio-glow-bg border border-[#242927] rounded-3xl p-6 sm:p-8 relative overflow-hidden flex flex-col items-center justify-center min-h-[420px]">
+                            <!-- Top Floating Badge -->
+                            <div class="w-full flex items-center justify-between mb-6 relative z-10">
+                                <span
+                                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D4A857] text-[#1A1408] text-[11px] font-bold tracking-wide shadow">
+                                    GRATIS • PDF
+                                </span>
+                                <span class="text-[11px] text-[#8E9491] font-medium">Edisi Terbaru 2026</span>
+                            </div>
+
+                            <!-- 3D Styled E-Book Cover -->
+                            <div class="ebook-perspective py-2 relative z-10 cursor-pointer"
+                                onclick="scrollToLeadMagnet()">
+                                <div
+                                    class="ebook-3d relative w-[235px] sm:w-[260px] h-[335px] sm:h-[365px] rounded-r-2xl rounded-l-md bg-gradient-to-br from-[#1C2320] via-[#131716] to-[#0B0D0C] border border-[#2F3633] p-5 flex flex-col justify-between overflow-hidden">
+                                    <!-- Book Spine Accent -->
+                                    <div
+                                        class="absolute inset-y-0 left-0 w-3.5 bg-gradient-to-r from-[#229A65] via-[#19744B] to-transparent opacity-90">
+                                    </div>
+                                    <div class="absolute inset-y-0 left-3.5 w-[1px] bg-white/10"></div>
+
+                                    <!-- Decorative Subtle Grid Lines -->
+                                    <div
+                                        class="absolute -right-12 -top-12 w-36 h-36 rounded-full bg-[#229A65]/15 blur-2xl pointer-events-none">
+                                    </div>
+
+                                    <!-- Cover Header: ELVORN Logo -->
+                                    <div class="pl-3 flex items-center justify-between relative z-10">
+                                        <div class="flex items-center gap-1.5">
+                                            <svg class="h-4 w-auto" viewBox="0 0 88 44" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <ellipse cx="44" cy="22" rx="39" ry="12" transform="rotate(-18 44 22)"
+                                                    stroke="#F5F7F6" stroke-width="2.5" />
+                                                <path
+                                                    d="M24 27L34 12H56L52 17H38L35.5 21H48L45 25.5H32.5L29.5 30H47L44 35H20L24 27Z"
+                                                    fill="#F5F7F6" />
+                                                <path d="M53 14L65 14L51 33H44L53 14Z" fill="#F5F7F6" />
+                                            </svg>
+                                            <span
+                                                class="font-display font-bold text-[10px] tracking-[0.18em] text-[#F5F7F6]">ELVORN</span>
+                                        </div>
+                                        <span
+                                            class="text-[9px] font-semibold px-2 py-0.5 rounded bg-[#229A65]/20 text-[#6EE7B7] border border-[#29B373]/30">
+                                            OFFICIAL GUIDE
+                                        </span>
+                                    </div>
+
+                                    <!-- Cover Center Artwork (Minimalist T-Shirt Wireframe SVG) -->
+                                    <div class="pl-3 my-2 flex flex-col items-center relative z-10">
+                                        <svg class="w-24 h-24 opacity-95 drop-shadow-md" viewBox="0 0 200 200"
+                                            fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M68 34 C76 41, 124 41, 132 34 L168 54 L154 84 L136 74 L136 168 L64 168 L64 74 L46 84 L32 54 L68 34 Z"
+                                                fill="#161C19" stroke="#29B373" stroke-width="2.5" />
+                                            <path d="M72 35 C81 46, 119 46, 128 35" stroke="#8E9491" stroke-width="2"
+                                                fill="none" />
+                                            <text x="100" y="106" text-anchor="middle" fill="#F5F7F6"
+                                                font-family="Plus Jakarta Sans, sans-serif" font-weight="700"
+                                                font-size="13" letter-spacing="2">ELVORN</text>
+                                            <line x1="78" y1="120" x2="122" y2="120" stroke="#D4A857" stroke-width="2"
+                                                stroke-linecap="round" />
+                                        </svg>
+                                    </div>
+
+                                    <!-- Cover Title & Footer -->
+                                    <div class="pl-3 space-y-2 relative z-10">
+                                        <div class="w-8 h-0.5 bg-[#D4A857] rounded-full"></div>
+                                        <h2
+                                            class="font-display font-extrabold text-[15px] sm:text-base leading-snug text-[#F5F7F6] tracking-tight">
+                                            PANDUAN LENGKAP BIKIN KAOS KOMUNITAS &amp; APPAREL
+                                        </h2>
+                                        <p class="text-[10px] text-[#8E9491] leading-relaxed">
+                                            Bahan, Sablon DTF/Plastisol, Standar Desain &amp; Anti Boncos Budget.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Caption Below Mockup -->
+                            <p class="text-xs text-[#A3A9A6] text-center mt-6 relative z-10">
+                                Klik buku atau isi form di bawah untuk membuka link unduhan PDF gratis.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- 3. PROFIL & KEUNGGULAN ELVORN (#profil)                             -->
+        <!-- =================================================================== -->
+        <section id="profil" class="py-16 sm:py-20 border-b border-[#1E2321]">
+            <div class="max-w-[1240px] mx-auto px-5 sm:px-8">
+                <div class="max-w-2xl mb-10">
+                    <span class="text-xs font-semibold uppercase tracking-widest text-[#29B373]">Profil Studio</span>
+                    <h2 class="font-display font-bold text-2xl sm:text-4xl text-[#F5F7F6] mt-2 leading-tight">
+                        Kenapa Komunitas &amp; Panitia Event Memilih ELVORN?
+                    </h2>
+                    <p class="text-sm sm:text-base text-[#8E9491] mt-3 leading-relaxed">
+                        Kami menggabungkan kualitas sablon standar distro dengan sistem pre-order yang rapi, terukur,
+                        dan bisa kamu pantau kapan saja.
+                    </p>
+                </div>
+
+                <!-- 4-Card Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <!-- Card 1 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#29B373]/50 rounded-2xl p-6 transition group">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-[#1C201E] border border-[#2F3633] group-hover:border-[#29B373]/50 flex items-center justify-center text-[#29B373] mb-5 transition">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path
+                                    d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display font-semibold text-lg text-[#F5F7F6] mb-2">Bahan Standar Distro</h3>
+                        <p class="text-xs sm:text-sm text-[#8E9491] leading-relaxed">
+                            Pilihan <strong class="text-[#D1D5DB] font-medium">Cotton Combed 30s &amp; 24s</strong> 100%
+                            katun murni yang adem, menyerap keringat, dan nyaman dipakai seharian.
+                        </p>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#29B373]/50 rounded-2xl p-6 transition group">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-[#1C201E] border border-[#2F3633] group-hover:border-[#29B373]/50 flex items-center justify-center text-[#29B373] mb-5 transition">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                                <polyline points="2 17 12 22 22 17" />
+                                <polyline points="2 12 12 17 22 12" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display font-semibold text-lg text-[#F5F7F6] mb-2">Sablon DTF &amp; Plastisol
+                            Presisi</h3>
+                        <p class="text-xs sm:text-sm text-[#8E9491] leading-relaxed">
+                            Warna tajam, detail desain rapi, serta proses curing terstandar agar hasil sablon awet dan
+                            tidak mudah retak saat dicuci.
+                        </p>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#29B373]/50 rounded-2xl p-6 transition group">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-[#1C201E] border border-[#2F3633] group-hover:border-[#29B373]/50 flex items-center justify-center text-[#29B373] mb-5 transition">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                                <path d="M9 16l2 2 4-4" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display font-semibold text-lg text-[#F5F7F6] mb-2">Sistem Kuota Kalender</h3>
+                        <p class="text-xs sm:text-sm text-[#8E9491] leading-relaxed">
+                            Jadwal produksi terbuka dengan batas kuota harian. Begitu DP terverifikasi, slot kamu
+                            langsung terkunci agar tepat waktu.
+                        </p>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#D4A857]/50 rounded-2xl p-6 transition group">
+                        <div
+                            class="w-11 h-11 rounded-xl bg-[#1C201E] border border-[#2F3633] group-hover:border-[#D4A857]/50 flex items-center justify-center text-[#D4A857] mb-5 transition">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                        </div>
+                        <h3 class="font-display font-semibold text-lg text-[#F5F7F6] mb-2">Fleksibel untuk Semua Skala
+                        </h3>
+                        <p class="text-xs sm:text-sm text-[#8E9491] leading-relaxed">
+                            Bisa mulai dari <strong class="text-[#D1D5DB] font-medium">Sample Satuan 1 Pcs (Rp
+                                65.000)</strong>, Pre-Order Komunitas, hingga layanan prioritas <strong
+                                class="text-[#D1D5DB] font-medium">Express 3 Hari</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- 4. PENJELASAN ALUR PEMESANAN (#alur-pemesanan)                      -->
+        <!-- =================================================================== -->
+        <section id="alur-pemesanan" class="py-16 sm:py-20 border-b border-[#1E2321] bg-[#0D100F]">
+            <div class="max-w-[1240px] mx-auto px-5 sm:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+                    <div class="max-w-2xl">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-[#29B373]">Alur
+                            Pemesanan</span>
+                        <h2 class="font-display font-bold text-2xl sm:text-4xl text-[#F5F7F6] mt-2 leading-tight">
+                            5 Langkah Mudah Pesan Kaos di ELVORN
+                        </h2>
+                        <p class="text-sm sm:text-base text-[#8E9491] mt-3 leading-relaxed">
+                            Dari cek slot kalender sampai kaos siap dipakai, seluruh prosesnya transparan dan
+                            terdokumentasi rapi.
+                        </p>
+                    </div>
+                    <a href="index.html"
+                        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#161A18] border border-[#2F3633] hover:border-[#29B373] text-xs sm:text-sm font-semibold text-[#F5F7F6] transition self-start md:self-auto">
+                        <span>Coba Aplikasi Booking</span>
+                        <svg class="w-4 h-4 text-[#29B373]" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.2">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- 5-Step Flow Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 relative">
+                    <!-- Step 1 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#29B373]/60 rounded-2xl p-5 flex flex-col justify-between transition relative">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="w-9 h-9 rounded-xl bg-[#229A65]/15 border border-[#29B373]/40 text-[#29B373] font-display font-bold text-sm flex items-center justify-center">
+                                    01
+                                </span>
+                                <span class="text-[11px] font-medium text-[#5C6360]">Langkah 1</span>
+                            </div>
+                            <h3 class="font-display font-semibold text-base text-[#F5F7F6] mb-2 leading-snug">
+                                Cek Jadwal &amp; Estimasi Otomatis
+                            </h3>
+                            <p class="text-xs text-[#8E9491] leading-relaxed">
+                                Pilih tanggal hijau yang tersedia di kalender produksi &amp; hitung estimasi biaya
+                                secara instan lewat kalkulator.
+                            </p>
+                        </div>
+                        <div
+                            class="mt-4 pt-3 border-t border-[#1E2321] flex items-center gap-1.5 text-[11px] text-[#29B373] font-medium">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#29B373]"></span>
+                            Slot Tersedia Real-Time
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#29B373]/60 rounded-2xl p-5 flex flex-col justify-between transition relative">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="w-9 h-9 rounded-xl bg-[#229A65]/15 border border-[#29B373]/40 text-[#29B373] font-display font-bold text-sm flex items-center justify-center">
+                                    02
+                                </span>
+                                <span class="text-[11px] font-medium text-[#5C6360]">Langkah 2</span>
+                            </div>
+                            <h3 class="font-display font-semibold text-base text-[#F5F7F6] mb-2 leading-snug">
+                                Tentukan Spesifikasi &amp; Desain
+                            </h3>
+                            <p class="text-xs text-[#8E9491] leading-relaxed">
+                                Pilih bahan (Combed 30s/24s), jenis sablon (DTF/Plastisol), rincian ukuran (S–XL), dan
+                                unggah file desain (.PNG/.CDR/.PDF).
+                            </p>
+                        </div>
+                        <div
+                            class="mt-4 pt-3 border-t border-[#1E2321] flex items-center gap-1.5 text-[11px] text-[#8E9491] font-medium">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#8E9491]"></span>
+                            Bisa Konsultasi Desain Dulu
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#29B373]/60 rounded-2xl p-5 flex flex-col justify-between transition relative">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="w-9 h-9 rounded-xl bg-[#D4A857]/15 border border-[#D4A857]/40 text-[#D4A857] font-display font-bold text-sm flex items-center justify-center">
+                                    03
+                                </span>
+                                <span class="text-[11px] font-medium text-[#5C6360]">Langkah 3</span>
+                            </div>
+                            <h3 class="font-display font-semibold text-base text-[#F5F7F6] mb-2 leading-snug">
+                                Konfirmasi &amp; Pembayaran DP 50%
+                            </h3>
+                            <p class="text-xs text-[#8E9491] leading-relaxed">
+                                Sistem membuat invoice otomatis dan format pesan WhatsApp. Transfer DP 50% untuk
+                                mengunci slot produksi kamu.
+                            </p>
+                        </div>
+                        <div
+                            class="mt-4 pt-3 border-t border-[#1E2321] flex items-center gap-1.5 text-[11px] text-[#D4A857] font-medium">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#D4A857]"></span>
+                            Invoice &amp; Format WA Otomatis
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#29B373]/60 rounded-2xl p-5 flex flex-col justify-between transition relative">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="w-9 h-9 rounded-xl bg-[#229A65]/15 border border-[#29B373]/40 text-[#29B373] font-display font-bold text-sm flex items-center justify-center">
+                                    04
+                                </span>
+                                <span class="text-[11px] font-medium text-[#5C6360]">Langkah 4</span>
+                            </div>
+                            <h3 class="font-display font-semibold text-base text-[#F5F7F6] mb-2 leading-snug">
+                                Pantau Progres Real-Time
+                            </h3>
+                            <p class="text-xs text-[#8E9491] leading-relaxed">
+                                Lacak status pesanan langsung dari dashboard (Antrean &rarr; Setting Film &rarr; Sablon
+                                &rarr; Finishing).
+                            </p>
+                        </div>
+                        <div
+                            class="mt-4 pt-3 border-t border-[#1E2321] flex items-center gap-1.5 text-[11px] text-[#29B373] font-medium">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#29B373]"></span>
+                            Update Langsung dari Studio
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div
+                        class="bg-[#131615] border border-[#242927] hover:border-[#29B373]/60 rounded-2xl p-5 flex flex-col justify-between transition relative">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span
+                                    class="w-9 h-9 rounded-xl bg-[#229A65] text-white font-display font-bold text-sm flex items-center justify-center shadow">
+                                    05
+                                </span>
+                                <span class="text-[11px] font-medium text-[#5C6360]">Langkah 5</span>
+                            </div>
+                            <h3 class="font-display font-semibold text-base text-[#F5F7F6] mb-2 leading-snug">
+                                Pelunasan &amp; Pengiriman
+                            </h3>
+                            <p class="text-xs text-[#8E9491] leading-relaxed">
+                                Verifikasi sisa pelunasan 50%, kaos dikemas rapi dengan quality control ketat, lalu siap
+                                dikirim atau diambil.
+                            </p>
+                        </div>
+                        <div
+                            class="mt-4 pt-3 border-t border-[#1E2321] flex items-center gap-1.5 text-[11px] text-[#F5F7F6] font-medium">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#F5F7F6]"></span>
+                            Lunas &amp; Siap Pakai
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- 5. LEAD MAGNET SECTION — FORM DOWNLOAD E-BOOK (#lead-magnet)        -->
+        <!-- =================================================================== -->
+        <section id="lead-magnet" class="py-16 sm:py-24 relative">
+            <div class="max-w-[1160px] mx-auto px-5 sm:px-8">
+                <!-- Highlighted Dark Container with Emerald Border Accent -->
+                <div id="lead-magnet-card"
+                    class="bg-[#131615] border border-[#29B373]/45 rounded-3xl p-6 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden">
+                    <!-- Ambient Corner Glow -->
+                    <div
+                        class="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-[#229A65]/15 blur-3xl pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-[#D4A857]/10 blur-3xl pointer-events-none">
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+                        <!-- Left Column: E-Book Value Proposition & Checklist -->
+                        <div class="lg:col-span-6 space-y-6">
+                            <div
+                                class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#229A65]/20 border border-[#29B373]/40 text-xs font-semibold text-[#6EE7B7]">
+                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2.2">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                                </svg>
+                                <span>GRATIS: E-Book &amp; Buku Panduan Produksi Kaos</span>
+                            </div>
+
+                            <h2 class="font-display font-extrabold text-2xl sm:text-4xl text-[#F5F7F6] leading-tight">
+                                Panduan Praktis Bikin Kaos Komunitas &amp; Event Anti Boncos
+                            </h2>
+
+                            <p class="text-sm text-[#8E9491] leading-relaxed">
+                                Dirangkum langsung dari pengalaman produksi studio ELVORN agar kamu bisa menentukan
+                                bahan, teknik sablon, dan jadwal produksi tanpa drama.
+                            </p>
+
+                            <!-- Checklist of What's Inside -->
+                            <ul class="space-y-3.5 pt-1">
+                                <li class="flex items-start gap-3">
+                                    <span
+                                        class="w-5 h-5 rounded-full bg-[#229A65]/20 text-[#29B373] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                    </span>
+                                    <span class="text-sm text-[#D1D5DB]">Perbandingan lengkap <strong
+                                            class="text-[#F5F7F6] font-semibold">Cotton Combed 30s vs 24s</strong>
+                                        sesuai kebutuhan acara</span>
+                                </li>
+
+                                <li class="flex items-start gap-3">
+                                    <span
+                                        class="w-5 h-5 rounded-full bg-[#229A65]/20 text-[#29B373] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                    </span>
+                                    <span class="text-sm text-[#D1D5DB]">Cara memilih <strong
+                                            class="text-[#F5F7F6] font-semibold">Sablon DTF vs Plastisol</strong> biar
+                                        hasil maksimal &amp; hemat budget</span>
+                                </li>
+
+                                <li class="flex items-start gap-3">
+                                    <span
+                                        class="w-5 h-5 rounded-full bg-[#229A65]/20 text-[#29B373] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                    </span>
+                                    <span class="text-sm text-[#D1D5DB]">Standar file desain siap cetak (<strong
+                                            class="text-[#F5F7F6] font-semibold">resolusi, warna, ukuran area
+                                            sablon</strong>)</span>
+                                </li>
+
+                                <li class="flex items-start gap-3">
+                                    <span
+                                        class="w-5 h-5 rounded-full bg-[#229A65]/20 text-[#29B373] flex items-center justify-center shrink-0 mt-0.5">
+                                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="3">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                    </span>
+                                    <span class="text-sm text-[#D1D5DB]">Checklist timeline produksi &amp; cara mengatur
+                                        pembagian ukuran (<strong
+                                            class="text-[#F5F7F6] font-semibold">S–XL</strong>)</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Right Column: Interactive Form / Success Unlock Card -->
+                        <div class="lg:col-span-6">
+                            <div class="bg-[#161A18] border border-[#2F3633] rounded-2xl p-6 sm:p-7 shadow-xl">
+
+                                <!-- FORM VIEW -->
+                                <div id="ebook-form-view" class="fade-in">
+                                    <div class="mb-5">
+                                        <h3 class="font-display font-bold text-lg sm:text-xl text-[#F5F7F6]">Isi Data
+                                            untuk Akses Download</h3>
+                                        <p class="text-xs text-[#8E9491] mt-1">Link PDF Google Drive akan langsung
+                                            terbuka setelah kamu mengirim form ini.</p>
+                                    </div>
+
+                                    <form id="lead-magnet-form" onsubmit="handleLeadMagnetSubmit(event)"
+                                        class="space-y-4">
+                                        <div>
+                                            <label for="input-nama"
+                                                class="block text-xs font-medium text-[#A3A9A6] mb-1.5">Nama
+                                                Lengkap</label>
+                                            <input id="input-nama" type="text" required
+                                                placeholder="Contoh: Andi Pratama"
+                                                class="w-full bg-[#1C201E] border border-[#2F3633] focus:border-[#29B373] rounded-xl px-4 py-3 text-sm text-[#F5F7F6] placeholder-[#6B7280] focus:outline-none transition" />
+                                        </div>
+
+                                        <div>
+                                            <label for="input-wa"
+                                                class="block text-xs font-medium text-[#A3A9A6] mb-1.5">Nomor
+                                                WhatsApp</label>
+                                            <input id="input-wa" type="tel" required placeholder="0812-xxxx-xxxx"
+                                                class="w-full bg-[#1C201E] border border-[#2F3633] focus:border-[#29B373] rounded-xl px-4 py-3 text-sm text-[#F5F7F6] placeholder-[#6B7280] focus:outline-none transition" />
+                                        </div>
+
+                                        <div>
+                                            <label for="input-email"
+                                                class="block text-xs font-medium text-[#A3A9A6] mb-1.5">Alamat
+                                                Email</label>
+                                            <input id="input-email" type="email" required placeholder="nama@email.com"
+                                                class="w-full bg-[#1C201E] border border-[#2F3633] focus:border-[#29B373] rounded-xl px-4 py-3 text-sm text-[#F5F7F6] placeholder-[#6B7280] focus:outline-none transition" />
+                                        </div>
+
+                                        <div>
+                                            <label for="input-kebutuhan"
+                                                class="block text-xs font-medium text-[#A3A9A6] mb-1.5">Kebutuhan Saat
+                                                Ini</label>
+                                            <select id="input-kebutuhan"
+                                                class="studio-select w-full bg-[#1C201E] border border-[#2F3633] focus:border-[#29B373] rounded-xl px-4 py-3 text-sm text-[#F5F7F6] focus:outline-none transition">
+                                                <option value="Kaos Komunitas / Organisasi">Kaos Komunitas / Organisasi
+                                                </option>
+                                                <option value="Kaos Event / Kepanitiaan">Kaos Event / Kepanitiaan
+                                                </option>
+                                                <option value="Brand Clothing / Streetwear">Brand Clothing / Streetwear
+                                                </option>
+                                                <option value="Baru Riset / Belajar Dulu">Baru Riset / Belajar Dulu
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <button type="submit"
+                                            class="w-full py-3.5 px-5 rounded-xl bg-[#229A65] hover:bg-[#29B373] text-white font-semibold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-[#229A65]/25 mt-2">
+                                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2.2">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                                <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+                                            </svg>
+                                            <span>Kirim &amp; Buka Link Download E-Book</span>
+                                        </button>
+
+                                        <p class="text-[11px] text-[#6B7280] text-center pt-1">
+                                            100% Gratis • Tanpa spam • Langsung akses file PDF di Google Drive.
+                                        </p>
+                                    </form>
+                                </div>
+
+                                <!-- SUCCESS UNLOCK CARD VIEW (Hidden by Default) -->
+                                <div id="ebook-success-view" class="hidden fade-in text-center space-y-5 py-2">
+                                    <div
+                                        class="w-14 h-14 mx-auto rounded-2xl bg-[#229A65]/20 border border-[#29B373]/40 text-[#29B373] flex items-center justify-center">
+                                        <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2.5">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                            <polyline points="22 4 12 14.01 9 11.01" />
+                                        </svg>
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <span
+                                            class="inline-block px-3 py-1 rounded-full text-[11px] font-semibold bg-[#229A65]/20 text-[#6EE7B7]">
+                                            AKSES E-BOOK TERBUKA
+                                        </span>
+                                        <h3 class="font-display font-bold text-xl sm:text-2xl text-[#F5F7F6]">
+                                            Halo, <span id="success-user-name" class="text-[#29B373]">Teman
+                                                ELVORN</span>!
+                                        </h3>
+                                        <p class="text-xs sm:text-sm text-[#8E9491] leading-relaxed max-w-md mx-auto">
+                                            Terima kasih sudah mengisi data. Klik tombol di bawah untuk mengunduh
+                                            <strong class="text-[#F5F7F6]">Panduan Lengkap Bikin Kaos Komunitas &amp;
+                                                Apparel (PDF)</strong> melalui Google Drive.
+                                        </p>
+                                    </div>
+
+                                    <div class="space-y-3 pt-2">
+                                        <a id="btn-download-gdrive" href="#" target="_blank" rel="noopener noreferrer"
+                                            class="w-full py-3.5 px-5 rounded-xl bg-[#229A65] hover:bg-[#29B373] text-white font-semibold text-sm flex items-center justify-center gap-2.5 transition shadow-lg shadow-[#229A65]/25">
+                                            <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2.2">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                <polyline points="7 10 12 15 17 10" />
+                                                <line x1="12" y1="15" x2="12" y2="3" />
+                                            </svg>
+                                            <span>Unduh E-Book (Google Drive)</span>
+                                        </a>
+
+                                        <a id="btn-wa-consult" href="#" target="_blank" rel="noopener noreferrer"
+                                            class="w-full py-3 px-5 rounded-xl border border-[#2F3633] hover:border-[#29B373] bg-[#1C201E] text-[#F5F7F6] font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition">
+                                            <svg class="w-4 h-4 text-[#29B373] shrink-0" viewBox="0 0 24 24" fill="none"
+                                                stroke="currentColor" stroke-width="2">
+                                                <path
+                                                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                                            </svg>
+                                            <span>Konsultasi Desain Gratis via WhatsApp</span>
+                                        </a>
+                                    </div>
+
+                                    <div class="pt-2 border-t border-[#242927]">
+                                        <button type="button" onclick="resetLeadMagnetForm()"
+                                            class="text-xs text-[#8E9491] hover:text-[#F5F7F6] underline underline-offset-4 transition">
+                                            Isi ulang form dengan data lain
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================================================================== -->
+    <!-- 6. FOOTER                                                             -->
+    <!-- ===================================================================== -->
+    <footer class="border-t border-[#1E2321] bg-[#0D100F]">
+        <div class="max-w-[1240px] mx-auto px-5 sm:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pb-10 border-b border-[#1E2321]">
+                <!-- Brand Info -->
+                <div class="md:col-span-5 space-y-4">
+                    <a href="#top" class="inline-flex items-center gap-2.5 select-none">
+                        <svg class="h-7 w-auto" viewBox="0 0 88 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <ellipse cx="44" cy="22" rx="39" ry="12" transform="rotate(-18 44 22)" stroke="#F5F7F6"
+                                stroke-width="2.2" />
+                            <path d="M24 27L34 12H56L52 17H38L35.5 21H48L45 25.5H32.5L29.5 30H47L44 35H20L24 27Z"
+                                fill="#F5F7F6" />
+                            <path d="M53 14L65 14L51 33H44L53 14Z" fill="#F5F7F6" />
+                        </svg>
+                        <span class="font-display font-semibold tracking-[0.14em] text-[#F5F7F6] text-lg">ELVORN</span>
+                    </a>
+                    <p class="text-sm text-[#8E9491] max-w-sm leading-relaxed">
+                        Studio Sablon Kaos &amp; Apparel dengan sistem pre-order transparan.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="md:col-span-3 space-y-3">
+                    <h4 class="font-display font-semibold text-sm text-[#F5F7F6]">Navigasi Cepat</h4>
+                    <ul class="space-y-2 text-sm text-[#8E9491]">
+                        <li><a href="#profil" class="hover:text-[#F5F7F6] transition">Profil Studio</a></li>
+                        <li><a href="#alur-pemesanan" class="hover:text-[#F5F7F6] transition">Alur Pemesanan</a></li>
+                        <li><a href="#lead-magnet" class="hover:text-[#F5F7F6] transition">Unduh E-Book Gratis</a></li>
+                    </ul>
+                </div>
+
+                <!-- Booking App Link -->
+                <div class="md:col-span-4 space-y-3 md:text-right">
+                    <h4 class="font-display font-semibold text-sm text-[#F5F7F6]">Siap Mulai Produksi?</h4>
+                    <p class="text-xs text-[#8E9491]">Cek kalender kuota harian dan hitung estimasi pesanan langsung di
+                        aplikasi kami.</p>
+                    <div class="pt-1">
+                        <a href="https://nd4nnnn.github.io/Web-Order-Booking/" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#F5F7F6] hover:bg-white text-[#0B0D0C] font-semibold text-sm transition shadow">
+                            <span>Buka Aplikasi Booking ELVORN</span>
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.2">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#6B7280]">
+                <p>&copy; 2026 ELVORN Apparel. Seluruh hak cipta dilindungi.</p>
+                <p>Cotton Combed 30s/24s &bull; DTF &amp; Plastisol Studio</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- JAVASCRIPT: CONFIG, TOAST, MOBILE MENU & LEAD MAGNET LOGIC            -->
+    <!-- ===================================================================== -->
+    <script>
+        // =========================================================================
+        // KONFIGURASI LINK DOWNLOAD E-BOOK & WHATSAPP ADMIN
+        // Ganti link di bawah ini dengan link Google Drive E-Book kamu yang asli!
+        // =========================================================================
+        const EBOOK_GDRIVE_LINK = "https://drive.google.com/drive/folders/1GzDBp4mcbkKdIrfg-uoP3qQmI4BOjSB_?usp=drive_link";
+        const WHATSAPP_ADMIN = "6283839765045";
+
+        /**
+         * Menampilkan notifikasi toast di pojok kanan atas layar.
+         * @param {string} message - Pesan notifikasi.
+         * @param {'success'|'error'} type - Tipe notifikasi.
+         */
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            const borderClass = type === 'error'
+                ? 'border-[#C75D5D]/60 bg-[#1B1313]'
+                : 'border-[#29B373]/50 bg-[#131916]';
+            const iconColor = type === 'error' ? '#C75D5D' : '#29B373';
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border ${borderClass} text-[#F5F7F6] text-xs font-medium shadow-2xl fade-in max-w-sm`;
+            toast.innerHTML = `
+        <svg class="w-4 h-4 shrink-0" style="color:${iconColor}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          ${type === 'error'
+                    ? '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'
+                    : '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'}
+        </svg>
+        <span>${message}</span>
+      `;
+
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-4px)';
+                toast.style.transition = 'all 0.25s ease';
+                setTimeout(() => toast.remove(), 260);
+            }, 3400);
+        }
+
+        /**
+         * Smooth scroll menuju section Lead Magnet dan memberikan efek highlight singkat.
+         */
+        function scrollToLeadMagnet() {
+            const section = document.getElementById('lead-magnet');
+            const card = document.getElementById('lead-magnet-card');
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            if (card) {
+                card.classList.remove('highlight-pulse');
+                // Memicu reflow agar animasi bisa diputar ulang
+                void card.offsetWidth;
+                card.classList.add('highlight-pulse');
+            }
+        }
+
+        /**
+         * Toggle menu navigasi mobile.
+         */
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('icon-menu-open');
+            const iconClose = document.getElementById('icon-menu-close');
+            if (!menu) return;
+
+            const isHidden = menu.classList.contains('hidden');
+            menu.classList.toggle('hidden', !isHidden);
+            if (iconOpen && iconClose) {
+                iconOpen.classList.toggle('hidden', isHidden);
+                iconClose.classList.toggle('hidden', !isHidden);
+            }
+        }
+
+        /**
+         * Menutup menu navigasi mobile.
+         */
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const iconOpen = document.getElementById('icon-menu-open');
+            const iconClose = document.getElementById('icon-menu-close');
+            if (menu) menu.classList.add('hidden');
+            if (iconOpen) iconOpen.classList.remove('hidden');
+            if (iconClose) iconClose.classList.add('hidden');
+        }
+
+        /**
+         * Menangani submit form Lead Magnet, membuka akses Google Drive,
+         * dan menyiapkan tombol konsultasi WhatsApp otomatis.
+         */
+        function handleLeadMagnetSubmit(event) {
+            event.preventDefault();
+
+            try {
+                const nama = document.getElementById('input-nama').value.trim();
+                const wa = document.getElementById('input-wa').value.trim();
+                const email = document.getElementById('input-email').value.trim();
+                const kebutuhan = document.getElementById('input-kebutuhan').value;
+
+                if (!nama || !wa || !email) {
+                    showToast('Mohon lengkapi nama, nomor WhatsApp, dan email kamu.', 'error');
+                    return;
+                }
+
+                // Update nama sapaan pada kartu sukses
+                const nameDisplay = document.getElementById('success-user-name');
+                if (nameDisplay) nameDisplay.textContent = nama;
+
+                // Pasang link Google Drive pada tombol download
+                const downloadBtn = document.getElementById('btn-download-gdrive');
+                if (downloadBtn) downloadBtn.href = EBOOK_GDRIVE_LINK;
+
+                // Siapkan pesan WhatsApp konsultasi otomatis
+                const waMessage = `Halo Admin ELVORN, saya ${nama} baru saja mengunduh E-Book Panduan Produksi Kaos.\n\nData saya:\n• Kebutuhan: ${kebutuhan}\n• Email: ${email}\n• No. WA: ${wa}\n\nSaya ingin konsultasi desain & estimasi produksi kaos.`;
+                const waBtn = document.getElementById('btn-wa-consult');
+                if (waBtn) {
+                    waBtn.href = `https://wa.me/${WHATSAPP_ADMIN}?text=${encodeURIComponent(waMessage)}`;
+                }
+
+                // Transisi dari Form View ke Success Unlock Card
+                document.getElementById('ebook-form-view').classList.add('hidden');
+                document.getElementById('ebook-success-view').classList.remove('hidden');
+
+                showToast('Akses terbuka! Silakan unduh E-Book panduan kamu.');
+            } catch (err) {
+                console.error('Gagal memproses form E-Book:', err);
+                showToast('Terjadi kesalahan saat membuka akses. Silakan coba lagi.', 'error');
+            }
+        }
+
+        /**
+         * Mengembalikan tampilan Success Unlock Card ke Form awal.
+         */
+        function resetLeadMagnetForm() {
+            const form = document.getElementById('lead-magnet-form');
+            if (form) form.reset();
+
+            document.getElementById('ebook-success-view').classList.add('hidden');
+            document.getElementById('ebook-form-view').classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>
